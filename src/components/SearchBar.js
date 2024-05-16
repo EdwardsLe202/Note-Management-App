@@ -14,6 +14,7 @@ const SearchBar = ({ onSearch }) => {
                 style={styles.inputStyle}
                 placeholder="Search"
                 onChangeText={onSearch}
+                autoCorrect={false}
             />
         </View>
     );
