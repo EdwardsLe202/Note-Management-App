@@ -1,11 +1,12 @@
-import {View, Text, StyleSheet} from "react-native";
+import {View, Text, Button} from "react-native";
 
 const FolderScreen = () => {
     return (
-        <View>
-            <Text>Home Screen</Text>
+        <View style={{ flex: 1, padding: 20 }}>
+          <Text>Folders Screen (Optional)</Text>
+          <Button title="Go Back" onPress={() => navigation.goBack()} />
         </View>
-    )
+    );
 }
 
 export default FolderScreen;
