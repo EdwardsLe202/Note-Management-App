@@ -1,3 +1,4 @@
+// Note.js
 class Note {
     constructor(id, color, labelIds, content, updateAt, isBookmarked) {
         this.id = id;

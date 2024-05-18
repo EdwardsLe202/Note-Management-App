@@ -4,7 +4,7 @@ import {
     responsiveScreenFontSize,
   } from 'react-native-responsive-dimensions';
   
-  export const COLORS = {
+  export const COLOR = {
     primaryPinkBGHex: '#FF8484',
     primaryBlueBGHex: '#8DECF8',
     secondaryPinkHex: '#F547A5',

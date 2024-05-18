@@ -1,7 +1,7 @@
 // SearchBar.js
 import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
-import { COLORS, HEIGHT } from "../theme/theme";
+import { COLOR, HEIGHT } from "../theme/theme";
 import { Fontisto } from '@expo/vector-icons';
 
 const SearchBar = ({ onSearch }) => {
@@ -22,12 +22,15 @@ const SearchBar = ({ onSearch }) => {
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: COLORS.primaryGreyHex,
+        backgroundColor: COLOR.primaryGreyHex,
         height: HEIGHT(5),
         borderRadius: HEIGHT(1),
         marginHorizontal: HEIGHT(1),
         flexDirection: 'row',
-        marginBottom: HEIGHT(1.5),
+        marginBottom: HEIGHT(3),
+        borderColor: COLOR.primaryBlackHex,
+        borderWidth: HEIGHT(0.1)
+    
     },
     iconStyle: {
         fontSize: HEIGHT(3),
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
         marginHorizontal: HEIGHT(1.5)
     },
     inputStyle: {
-        borderColor: COLORS.primaryBlackHex,
+        borderColor: COLOR.primaryBlackHex,
         fontSize: HEIGHT(2),
         flex: 1
     }

@@ -1,7 +1,7 @@
 // LabelScreen.js
 import React, { useState } from 'react';
 import { View, FlatList, Text, Button } from 'react-native';
-import { LABELS } from '../../../data/dummy-data';
+import { LABELS, COLORS } from '../../../data/dummy-data';
 import Label from '../../../models/Label';
 import SearchBar from '../../components/SearchBar';
 

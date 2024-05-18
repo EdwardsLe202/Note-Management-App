@@ -1,3 +1,4 @@
+// Label.js
 class Label {
     constructor(id, label) {
         this.id = id;

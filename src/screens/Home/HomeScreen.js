@@ -3,18 +3,32 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { NOTES, LABELS, COLORS } from '../../../data/dummy-data.js';
 import SearchBar from '../../components/SearchBar.js';
+import { FontAwesome } from '@expo/vector-icons';
+import { COLOR, HEIGHT } from '../../theme/theme.js';
+import { AntDesign } from '@expo/vector-icons';
 
 const HomeScreen = ({ navigation }) => {
   const [search, setSearch] = useState('');
   const [filteredNotes, setFilteredNotes] = useState(NOTES);
+  const [searchResult, setSearchResult] = useState(true);
+
 
   const searchNotes = text => {
+    const lowercaseText = text.toLowerCase(); 
     setSearch(text);
     if (text) {
-      setFilteredNotes(NOTES.filter(note => note.content.includes(text)));
+      const filtered = NOTES.filter(note => note.content.toLowerCase().includes(lowercaseText)); 
+      setFilteredNotes(filtered);
+      setSearchResult(filtered.length > 0);
     } else {
       setFilteredNotes(NOTES);
+      setSearchResult(true);
     }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString(); 
   };
 
   
@@ -22,28 +36,28 @@ const HomeScreen = ({ navigation }) => {
     <TouchableOpacity onPress={() => navigation.navigate('EditNote', { noteId: item.id })}>
       <View style={styles.noteContainer}>
         <View>
+          <View style={styles.timeContainer}>
+            <View style={[styles.colorIndicator, { backgroundColor: item.color || 'gray' }]}></View>
+            <Text style={styles.createdAt}>{formatDate(item.updateAt)}</Text>
+          </View>
+          <View style={styles.labelContainer}>
+            {item.labelIds.map(labelId => {
+              const label = LABELS.find(label => label.id === labelId);
+              if (label) {
+                return (
+                  <View key={label.id} style={[styles.label, { backgroundColor: 'gray' }]}>
+                    <Text style={styles.labelText}>{label.label}</Text>
+                  </View>
+                );
+              }
+              return null;
+            })}
+          </View>
           <Text style={styles.noteContent}>{item.content}</Text>
-          {/* {item.labels && (
-            <View style={styles.labelContainer}>
-              {item.labels.map(labelId => {
-                const label = LABELS.find(label => label.id === labelId);
-                if (label) {
-                  return (
-                    <View key={label.id} style={[styles.label, { backgroundColor: COLORS[LABELS.indexOf(label)] }]}>
-                      <Text style={styles.labelText}>{label.name}</Text>
-                    </View>
-                  );
-                }
-              })}
-            </View>
-          )} */}
-          <Text style={styles.createdAt}>
-            {item.createdAt ? `Created on: ${item.createdAt.toLocaleString()}` : 'Created on: Unknown'}
-          </Text>
         </View>
-        <Text style={[styles.importance, { color: item.isImportant ? 'red' : 'black' }]}>
-          {item.isImportant ? 'Important' : ''}
-        </Text>
+        <View style={styles.bookmarkContainer}>
+          {item.isBookmarked && <FontAwesome name="bookmark" size={24} color={COLOR.secondaryYellowHex} />}
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -52,17 +66,21 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <SearchBar onSearch={searchNotes} />
-      <FlatList
-        data={filteredNotes}
-        keyExtractor={item => item.id}
-        renderItem={renderItem}
-        ListEmptyComponent={<Text style={styles.emptyList}>Please add a new note</Text>}
-      />
+      {searchResult ? ( 
+        <FlatList
+          data={filteredNotes}
+          keyExtractor={item => item.id}
+          renderItem={renderItem}
+          ListEmptyComponent={<Text style={styles.emptyList}>Please Add A New Note</Text>}
+        />
+      ) : (
+        <Text style={styles.emptyList}>Note Not Found</Text>
+      )}
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => navigation.navigate('NewNote')}
       >
-        <Text style={styles.addButtonText}>+</Text>
+        <AntDesign name="pluscircle" size={50} color={COLOR.secondaryYellowHex} />
       </TouchableOpacity>
     </View>
   );
@@ -77,11 +95,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: HEIGHT(2),
+    backgroundColor: COLOR.primaryBlue,
+    padding: HEIGHT(2.5),
+    borderRadius: HEIGHT(2)
+
   },
   noteContent: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: COLOR.primaryWhiteHex
   },
   labelContainer: {
     flexDirection: 'row',
@@ -94,10 +117,10 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   labelText: {
-    color: 'white',
+    color: COLOR.primaryWhiteHex,
   },
   createdAt: {
-    color: 'gray',
+    color: COLOR.primaryWhiteHex,
   },
   importance: {
     fontWeight: 'bold',
@@ -109,14 +132,20 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor: 'blue',
     padding: 10,
-    borderRadius: 25,
+ 
   },
-  addButtonText: {
-    color: 'white',
-    fontSize: 24,
+  colorIndicator: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginRight: 10,
   },
+  timeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap'
+  }
 });
 
 export default HomeScreen;
