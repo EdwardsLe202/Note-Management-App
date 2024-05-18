@@ -39,6 +39,7 @@ const NewNote = ({ navigation }) => {
           style={styles.inputStyle}
         />
       </View>
+      <Text style={styles.title}>Labels</Text>
       <View style={styles.labelContainer}>
         {LABELS.map(label => (
           <TouchableOpacity
@@ -55,7 +56,10 @@ const NewNote = ({ navigation }) => {
               );
             }}
           >
-          <Text style={styles.labelText}>{label.label}</Text>
+          <Text style={[
+              styles.labelText,
+              selectedLabels.includes(label.id) && styles.selectedLabelText
+            ]}>{label.label}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
   },
   checkButton: {
     position: 'absolute',
-    paddingTop: HEIGHT(15),
+    paddingTop: HEIGHT(13),
     right: 20,
   },
   imageStyle: {
@@ -145,6 +149,14 @@ const styles = StyleSheet.create({
   labelText: {
     color: COLOR.primaryBlackHex,
   },
+  selectedLabelText: {
+    color: COLOR.primaryWhiteHex, 
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: HEIGHT(2),
+    paddingLeft: HEIGHT(2.9)
+  }
 });
 
 export default NewNote;

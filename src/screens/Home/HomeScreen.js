@@ -68,6 +68,7 @@ const HomeScreen = ({ navigation }) => {
       <SearchBar onSearch={searchNotes} />
       {searchResult ? ( 
         <FlatList
+        showsVerticalScrollIndicator={false}
           data={filteredNotes}
           keyExtractor={item => item.id}
           renderItem={renderItem}
