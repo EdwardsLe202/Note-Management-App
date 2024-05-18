@@ -12,7 +12,6 @@ const HomeScreen = ({ navigation }) => {
   const [filteredNotes, setFilteredNotes] = useState(NOTES);
   const [searchResult, setSearchResult] = useState(true);
 
-
   const searchNotes = text => {
     const lowercaseText = text.toLowerCase(); 
     setSearch(text);
@@ -31,9 +30,12 @@ const HomeScreen = ({ navigation }) => {
     return date.toLocaleString(); 
   };
 
+  const updateNotes = () => {
+    setFilteredNotes([...NOTES]);
+  };
   
   const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('EditNote', { noteId: item.id })}>
+    <TouchableOpacity onPress={() => navigation.navigate('EditNote', { noteId: item.id, updateNotes })}>
       <View style={styles.noteContainer}>
         <View>
           <View style={styles.timeContainer}>
@@ -68,7 +70,7 @@ const HomeScreen = ({ navigation }) => {
       <SearchBar onSearch={searchNotes} />
       {searchResult ? ( 
         <FlatList
-        showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           data={filteredNotes}
           keyExtractor={item => item.id}
           renderItem={renderItem}
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
   noteContent: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLOR.primaryWhiteHex
+    color: COLOR.primaryWhiteHex,
   },
   labelContainer: {
     flexDirection: 'row',
@@ -134,7 +136,6 @@ const styles = StyleSheet.create({
     bottom: HEIGHT(7),
     right: 20,
     padding: 10,
- 
   },
   colorIndicator: {
     width: 10,
@@ -145,8 +146,11 @@ const styles = StyleSheet.create({
   timeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    flexWrap: 'wrap'
-  }
+    flexWrap: 'wrap',
+  },
+  bookmarkContainer: {
+    paddingLeft: 10,
+  },
 });
 
 export default HomeScreen;
