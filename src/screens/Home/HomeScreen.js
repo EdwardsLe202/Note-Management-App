@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   },
   addButton: {
     position: 'absolute',
-    bottom: 20,
+    bottom: HEIGHT(7),
     right: 20,
     padding: 10,
  

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet , TouchableOpacity, Image} from 'react-native';
-import { NOTES } from '../../../data/dummy-data';
+import { View, TextInput, Button, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
+import { NOTES, LABELS } from '../../../data/dummy-data';
 import Note from '../../../models/Note';
 import { COLOR, HEIGHT } from '../../theme/theme';
-import { AntDesign , MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
+import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import AlertModal from '../../components/AlertModal';
-
 
 const NewNote = ({ navigation }) => {
   const [content, setContent] = useState('');
   const [showModal, setShowModal] = useState(false); // State để kiểm soát hiển thị modal
+  const [selectedLabels, setSelectedLabels] = useState([]); // State để lưu các nhãn đã chọn
 
   const addNote = () => {
     if (content.trim() === '') {
@@ -19,7 +19,7 @@ const NewNote = ({ navigation }) => {
     const newNote = new Note(
       `n${NOTES.length + 1}`,
       null,
-      [],
+      selectedLabels,
       content,
       new Date(),
       false
@@ -38,6 +38,26 @@ const NewNote = ({ navigation }) => {
           onChangeText={setContent}
           style={styles.inputStyle}
         />
+      </View>
+      <View style={styles.labelContainer}>
+        {LABELS.map(label => (
+          <TouchableOpacity
+            key={label.id}
+            style={[
+              styles.label,
+              selectedLabels.includes(label.id) && styles.selectedLabel
+            ]}
+            onPress={() => {
+              setSelectedLabels(prev =>
+                prev.includes(label.id)
+                  ? prev.filter(id => id !== label.id)
+                  : [...prev, label.id]
+              );
+            }}
+          >
+          <Text style={styles.labelText}>{label.label}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
       <Image
         source={require('../../../assets/editNote.png')}
@@ -82,7 +102,6 @@ const styles = StyleSheet.create({
     borderWidth: HEIGHT(0.1),
     marginTop: HEIGHT(4),
     flexDirection: 'row'
-
   },
   iconStyle: {
     fontSize: HEIGHT(4),
@@ -97,7 +116,7 @@ const styles = StyleSheet.create({
   },
   checkButton: {
     position: 'absolute',
-    paddingTop: HEIGHT(30),
+    paddingTop: HEIGHT(15),
     right: 20,
   },
   imageStyle: {
@@ -106,6 +125,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: HEIGHT(10),
     marginLeft: HEIGHT(10)
+  },
+  labelContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginVertical: HEIGHT(2),
+    paddingLeft: HEIGHT(2.3)
+    
+  },
+  label: {
+    borderRadius: 5,
+    padding: 5,
+    margin: 5,
+    backgroundColor: COLOR.primaryGreyHex,
+  },
+  selectedLabel: {
+    backgroundColor: COLOR.primaryBlue,
+  },
+  labelText: {
+    color: COLOR.primaryBlackHex,
   },
 });
 
