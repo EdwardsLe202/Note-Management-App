@@ -56,7 +56,7 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.noteContent}>{item.content}</Text>
         </View>
         <View style={styles.bookmarkContainer}>
-          {item.isBookmarked && <FontAwesome name="bookmark" size={24} color={COLOR.secondaryYellowHex} />}
+          {item.isBookmarked && <FontAwesome name="bookmark" size={24} color={COLOR.primaryRedHex} />}
         </View>
       </View>
     </TouchableOpacity>

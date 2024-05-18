@@ -3,13 +3,19 @@ import { View, TextInput, Button, StyleSheet , TouchableOpacity, Image} from 're
 import { NOTES } from '../../../data/dummy-data';
 import Note from '../../../models/Note';
 import { COLOR, HEIGHT } from '../../theme/theme';
-import { AntDesign , MaterialCommunityIcons} from '@expo/vector-icons';
+import { AntDesign , MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
+import AlertModal from '../../components/AlertModal';
 
 
 const NewNote = ({ navigation }) => {
   const [content, setContent] = useState('');
+  const [showModal, setShowModal] = useState(false); // State để kiểm soát hiển thị modal
 
   const addNote = () => {
+    if (content.trim() === '') {
+      setShowModal(true); // Hiển thị modal nếu nội dung trống
+      return;
+    }
     const newNote = new Note(
       `n${NOTES.length + 1}`,
       null,
@@ -25,7 +31,7 @@ const NewNote = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.background}>
-        <MaterialCommunityIcons name="keyboard-outline"  style={styles.iconStyle} />
+        <MaterialCommunityIcons name="keyboard-outline" style={styles.iconStyle} />
         <TextInput
           placeholder="Enter note content"
           value={content}
@@ -34,18 +40,29 @@ const NewNote = ({ navigation }) => {
         />
       </View>
       <Image
-          source={require('../../../assets/editNote.png')}
-          style={styles.imageStyle}/>
+        source={require('../../../assets/editNote.png')}
+        style={styles.imageStyle} />
       <View>
         <TouchableOpacity
           style={styles.checkButton}
           onPress={addNote}
-          >
+        >
           <AntDesign name="checkcircle" size={50} color={COLOR.secondaryYellowHex} />
         </TouchableOpacity>
       </View>
-    </View>
 
+      {/* Modal */}
+      <AlertModal
+        open={showModal}
+        message="Please fill the note content"
+        title={<Ionicons name="notifications" size={40} color={COLOR.primaryRedHex} />}
+        onClose={() => setShowModal(false)}
+        onConfirmPress={() => {
+          setShowModal(false);
+        }}
+        confirmText='Yes'
+      />
+    </View>
   );
 };
 
@@ -89,8 +106,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: HEIGHT(10),
     marginLeft: HEIGHT(10)
-  }
-
+  },
 });
 
 export default NewNote;

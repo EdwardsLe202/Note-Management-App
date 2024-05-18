@@ -28,7 +28,7 @@ import {
     secondaryBlackRGBA: 'rgba(0,0,0,0.7)',
     primaryBrownBorderHex: '#A25600',
     primaryBlue: '#344955',
-    primaryBrown: '#E6DDC4'
+    primaryBrown: '#E6DDC4',
   };
   
   export const FONTFAMILY = {
