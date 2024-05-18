@@ -34,7 +34,7 @@ const NewNote = ({ navigation }) => {
         />
       </View>
       <Image
-          source={require('../../../assets/app.png')}
+          source={require('../../../assets/editNote.png')}
           style={styles.imageStyle}/>
       <View>
         <TouchableOpacity
@@ -85,11 +85,10 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     height: 200,
-    width: 300,
-    borderRadius: 65,
+    width: 200,
     justifyContent: 'center',
     marginTop: HEIGHT(10),
-    marginLeft: HEIGHT(2)
+    marginLeft: HEIGHT(10)
   }
 
 });
