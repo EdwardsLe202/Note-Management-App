@@ -3,8 +3,17 @@ import { View, TextInput, Button, Text } from 'react-native';
 import { NOTES } from '../../../data/dummy-data';
 
 const EditNote = ({ route, navigation }) => {
-  const { noteId } = route.params;
+  const { noteId } = route.params || {}; // Safely access noteId
   const note = NOTES.find(n => n.id === noteId);
+
+  if (!note) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Note not found!</Text>
+      </View>
+    );
+  }
+
   const [content, setContent] = useState(note.content);
 
   const saveNote = () => {
