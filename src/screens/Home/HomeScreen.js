@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     marginBottom: HEIGHT(2),
     backgroundColor: COLOR.primaryBlue,
     padding: HEIGHT(2.5),
-    borderRadius: HEIGHT(2)
+    borderRadius: HEIGHT(2),
 
   },
   noteContent: {
