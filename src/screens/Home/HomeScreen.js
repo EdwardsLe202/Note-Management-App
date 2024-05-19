@@ -83,7 +83,7 @@ const HomeScreen = ({ navigation }) => {
       )}
       <TouchableOpacity
         style={styles.addButton}
-        onPress={() => navigation.navigate('NewNoteNavigator')}
+        onPress={() => navigation.navigate('NewNoteNavigator', { screen: 'NewNote', params: { updateNotes } })}
       >
         <AntDesign name="pluscircle" size={50} color={COLOR.secondaryYellowHex} />
       </TouchableOpacity>
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 3,
     marginRight: 5,
-    flexWrap: 'wrap',
+    
   },
   labelText: {
     color: COLOR.primaryWhiteHex,
