@@ -1,14 +1,15 @@
 import React from 'react';
 import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
-import HomeScreen from '../../src/screens/Home/HomeScreen';
-import FolderScreen from '../../src/screens/Folders/FolderScreen';
-import LabelScreen from '../../src/screens/Labels/LabelScreen';
-import TrashScreen from '../../src/screens/Trash/TrashScreen';
+import HomeScreen from '../screens/Home/HomeScreen';
+import FolderScreen from '../screens/Folders/FolderScreen';
+import LabelScreen from '../screens/Labels/LabelScreen';
+import TrashScreen from '../screens/Trash/TrashScreen';
 import { COlORPICKER, COLOR } from '../theme/theme';
 import { Fontisto, Feather, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, View, Image, Text } from 'react-native';
-import StackNavigator from './StackNavigator';
+import HomeNavigator from './HomeNavigator';
+import EditNoteNavigator from './EditNoteNavigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -52,7 +53,7 @@ const DrawerNavigator = () => {
       screenOptions={{
         drawerStyle: {
           backgroundColor: COLOR.primaryWhiteHex,
-          width: 250,            
+          width: 250,
         },
         headerStyle: {
           backgroundColor: COLOR.primaryBlue
@@ -72,19 +73,19 @@ const DrawerNavigator = () => {
         options={{
           drawerLabel: "Home",
           title: "Home",
-          drawerIcon: ({}) => (
+          drawerIcon: ({ }) => (
             <Feather name="home" size={20} color={COLOR.primaryBlue} />
           ),
         }}
       >
-        {props => <StackNavigator {...props} />}
+        {props => <HomeNavigator {...props} />}
       </Drawer.Screen>
       <Drawer.Screen
         name="Folders"
         options={{
           drawerLabel: "Folders",
           title: "Folders",
-          drawerIcon: ({}) => (
+          drawerIcon: ({ }) => (
             <AntDesign name="folder1" size={20} color={COLOR.primaryBlue} />
           ),
         }}
@@ -95,7 +96,7 @@ const DrawerNavigator = () => {
         options={{
           drawerLabel: "Labels",
           title: "Labels",
-          drawerIcon: ({}) => (
+          drawerIcon: ({ }) => (
             <MaterialCommunityIcons name="label-multiple-outline" size={20} color={COLOR.primaryBlue} />
           ),
         }}
@@ -106,7 +107,7 @@ const DrawerNavigator = () => {
         options={{
           drawerLabel: "Trash",
           title: "Trash",
-          drawerIcon: ({}) => (
+          drawerIcon: ({ }) => (
             <Feather name="trash-2" size={20} color={COLOR.primaryBlue} />
           ),
         }}

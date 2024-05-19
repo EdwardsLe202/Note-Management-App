@@ -6,14 +6,15 @@ import { COLOR, HEIGHT } from '../../theme/theme';
 import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import AlertModal from '../../components/AlertModal';
 
-const NewNote = ({ navigation }) => {
+const NewNote = ({ navigation, route }) => {
+  const { updateNotes } = route.params;
   const [content, setContent] = useState('');
-  const [showModal, setShowModal] = useState(false); // State để kiểm soát hiển thị modal
-  const [selectedLabels, setSelectedLabels] = useState([]); // State để lưu các nhãn đã chọn
+  const [showModal, setShowModal] = useState(false);
+  const [selectedLabels, setSelectedLabels] = useState([]);
 
   const addNote = () => {
     if (content.trim() === '') {
-      setShowModal(true); // Hiển thị modal nếu nội dung trống
+      setShowModal(true);
       return;
     }
     const newNote = new Note(
@@ -25,11 +26,18 @@ const NewNote = ({ navigation }) => {
       false
     );
     NOTES.push(newNote);
+    updateNotes();
     navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
+      <View style={styles.button}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.titleStyle}></Text>
+      </View>
       <View style={styles.background}>
         <MaterialCommunityIcons name="keyboard-outline" style={styles.iconStyle} />
         <TextInput
@@ -94,7 +102,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    padding: HEIGHT(1),
+    padding: HEIGHT(0),
+  },
+  button: {
+    flexDirection: 'row',
+    paddingBottom: HEIGHT(5),
+ 
+  },
+  titleStyle: {
+    alignItems: 'center',
+    
+  },
+  backButton: {
+    position: 'absolute',
+    top: 40,
+    left: 20,
+    zIndex: 1,
+    
+    
   },
   background: {
     backgroundColor: COLOR.primaryGreyHex,
@@ -122,6 +147,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     paddingTop: HEIGHT(13),
     right: 20,
+
   },
   imageStyle: {
     height: 200,

@@ -1,16 +1,18 @@
 //App.js
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
-import DrawerNavigator from './src/navigations/DrawNavigator';
+import { StyleSheet, View, LogBox } from 'react-native';
 import "react-native-gesture-handler";
-import StackNavigator from './src/navigations/StackNavigator';
 import { NavigationContainer } from '@react-navigation/native';
+import MainNavigator from './src/navigations/MainNavigator';
+
+
+// LogBox.ignoreAllLogs();
+
 export default function App() {
   return (
-  <NavigationContainer>
-      <DrawerNavigator/>
-  </NavigationContainer>
+    <NavigationContainer>
+      <MainNavigator />
+    </NavigationContainer>
   );
 }
 
@@ -22,3 +24,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+
