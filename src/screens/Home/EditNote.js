@@ -5,6 +5,7 @@ import { NOTES, LABELS } from '../../../data/dummy-data';
 import { FontAwesome } from '@expo/vector-icons';
 import { COLOR } from '../../theme/theme';
 
+
 const EditNote = ({ route, navigation }) => {
   const { noteId, updateNotes } = route.params || {}; // Safely access noteId and updateNotes
   const note = NOTES.find(n => n.id === noteId);

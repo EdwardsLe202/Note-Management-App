@@ -7,6 +7,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import { COLOR, HEIGHT } from '../../theme/theme.js';
 import { AntDesign } from '@expo/vector-icons';
 
+
+
 const HomeScreen = ({ navigation }) => {
   const [search, setSearch] = useState('');
   const [filteredNotes, setFilteredNotes] = useState(NOTES);
@@ -35,7 +37,7 @@ const HomeScreen = ({ navigation }) => {
   };
   
   const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('EditNote', { noteId: item.id, updateNotes })}>
+    <TouchableOpacity onPress={() => navigation.navigate('EditNoteNavigator', { screen: 'EditNote', params: { noteId: item.id, updateNotes } })}>
       <View style={styles.noteContainer}>
         <View>
           <View style={styles.timeContainer}>
@@ -81,7 +83,7 @@ const HomeScreen = ({ navigation }) => {
       )}
       <TouchableOpacity
         style={styles.addButton}
-        onPress={() => navigation.navigate('NewNote')}
+        onPress={() => navigation.navigate('NewNoteNavigator')}
       >
         <AntDesign name="pluscircle" size={50} color={COLOR.secondaryYellowHex} />
       </TouchableOpacity>
@@ -118,6 +120,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 3,
     marginRight: 5,
+    flexWrap: 'wrap',
   },
   labelText: {
     color: COLOR.primaryWhiteHex,
