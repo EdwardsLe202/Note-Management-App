@@ -1,15 +1,26 @@
-import React, { useContext, useState } from 'react';
+// LabelScreen.js
+import React, { useContext, useState, useEffect } from 'react';
 import { View, FlatList, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
 import { LabelsContext } from '../../components/LabelsContext';
 import LabelModal from './LabelModal';
 import SearchBar from '../../components/SearchBar';
 
-const LabelScreen = ({ navigation }) => {
+const LabelScreen = ({ navigation, route }) => {
   const { labels, addLabel, updateLabel, deleteLabel } = useContext(LabelsContext);
   const [search, setSearch] = useState('');
   const [filteredLabels, setFilteredLabels] = useState(labels);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState(null);
+
+  useEffect(() => {
+    setFilteredLabels(labels);
+  }, [labels]);
+
+  useEffect(() => {
+    if (route.params?.updated) {
+      setFilteredLabels(labels);
+    }
+  }, [route.params]);
 
   const searchLabels = text => {
     setSearch(text);

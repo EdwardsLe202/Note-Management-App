@@ -1,12 +1,13 @@
-import React, { useContext, useState } from 'react';
+// ManageLabels.js
+import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { LabelsContext } from '../../components/LabelsContext';
-import { COlORPICKER, HEIGHT, COLOR } from '../../theme/theme';
+import { COLOR, HEIGHT } from '../../theme/theme'; 
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 const ManageLabels = ({ route, navigation }) => {
   const { labels } = useContext(LabelsContext);
-  const { selectedLabels, updateLabels } = route.params;
+  const { selectedLabels = [], updateLabels } = route.params; 
   const [localSelectedLabels, setLocalSelectedLabels] = useState(selectedLabels);
 
   const toggleLabel = (labelId) => {
@@ -21,7 +22,7 @@ const ManageLabels = ({ route, navigation }) => {
 
   const saveLabels = () => {
     updateLabels(localSelectedLabels);
-    navigation.goBack();
+    navigation.navigate('LabelScreen', { updated: true });
   };
 
   return (

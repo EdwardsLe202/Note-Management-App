@@ -1,6 +1,7 @@
+// EditNote.js
 import React, { useState, useRef, useContext } from 'react';
 import { View, TextInput, Button, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
-import { NOTES, COLORS } from '../../../data/dummy-data';
+import { NOTES, LABELS, COLORS } from '../../../data/dummy-data';
 import { Entypo, FontAwesome, Ionicons, MaterialCommunityIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { COLOR, HEIGHT } from '../../theme/theme';
 import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
@@ -57,7 +58,7 @@ const EditNote = ({ route, navigation }) => {
   };
 
   const bottomSheetModalRef = useRef(null);
-  const snapPoints = ["100%"];
+  const snapPoints = ["45%"];
 
   const handlePresentModal = () => {
     bottomSheetModalRef.current?.present();
@@ -103,48 +104,51 @@ const EditNote = ({ route, navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.saveButton}>
-          <Button title="Save Note" onPress={saveNote} color={COLOR.primaryRedHex} />
-        </View>
-        <View style={styles.deleteButton}>
-          <TouchableOpacity onPress={deleteNote} style={styles.deleteButtonContainer}>
-            <Feather name="trash-2" size={40} color="black" />
+        <Image
+          source={require('../../../assets/pencil.png')}
+          style={styles.imageStyle} />
+        <View>
+          <TouchableOpacity
+            style={styles.checkButton}
+            onPress={saveNote}
+          >
+            <AntDesign name="checkcircle" size={50} color={COLOR.secondaryYellowHex} />
           </TouchableOpacity>
+        </View>
+
+        <View style={styles.BottomSheetStyle}>
+          <StatusBar style="auto" />
         </View>
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={0}
           snapPoints={snapPoints}
-          backgroundStyle={styles.modalBackground}
+          backgroundStyle={{ borderRadius: 50 }}
         >
-          <View style={styles.modalContentContainer}>
-            <Text style={styles.modalTitle}>Choose a Color:</Text>
-            <View style={styles.colorPalette}>
-              {COLORS.map(color => (
-                <TouchableOpacity
-                  key={color}
-                  onPress={() => changeColor(color)}
-                  style={[styles.colorOption, { backgroundColor: color }]}
-                />
-              ))}
+          <View style={styles.bottomSheetContent}>
+            <View style={styles.colorSelector}>
+              <View style={styles.colorSelectorHeader}>
+                <Feather name="edit-2" size={25} color="black" />
+                <Text style={styles.bottomSheetSubtitle}>Select Color:</Text>
+              </View>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.colorOptions}>
+                {COLORS.map((clr) => (
+                  <TouchableOpacity key={clr} onPress={() => changeColor(clr)} style={[styles.colorCircle, { backgroundColor: clr }]} />
+                ))}
+              </ScrollView>
             </View>
-            <Text style={styles.modalTitle}>Edit Labels:</Text>
-            <View style={styles.labelsContainer}>
-              {availableLabels.map(label => (
-                <TouchableOpacity
-                  key={label.id}
-                  onPress={() => {
-                    const newLabels = labels.includes(label.id)
-                      ? labels.filter(id => id !== label.id)
-                      : [...labels, label.id];
-                    updateLabels(newLabels);
-                  }}
-                  style={[styles.labelOption, { backgroundColor: labels.includes(label.id) ? 'gray' : 'lightgray' }]}
-                >
-                  <Text>{label.label}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+            <TouchableOpacity onPress={() => navigation.navigate('ManageLabels', { labels, updateLabels })} style={styles.manageLabelsButton}>
+              <View style={styles.manageLabelsContent}>
+                <Feather name="tag" size={25} color={COLOR.primaryBlackHex} />
+                <Text style={styles.manageLabelsText}>Manage Labels</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={deleteNote} style={styles.deleteButton}>
+              <View style={styles.deleteButtonContent}>
+                <Feather name="trash-2" size={25} color={COLOR.primaryBlackHex} />
+                <Text style={styles.deleteButtonText}>Delete Note</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </BottomSheetModal>
       </View>
@@ -155,95 +159,30 @@ const EditNote = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: HEIGHT(6),
-  },
-  background: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  inputStyle: {
-    fontSize: 22,
-    color: COLOR.primaryWhiteGreyHex,
-    textAlign: 'center',
-  },
-  iconStyle: {
-    fontSize: 50,
-    color: COLOR.primaryWhiteGreyHex,
-  },
-  backButton: {
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    marginLeft: HEIGHT(2),
-  },
-  button: {
-    flexDirection: 'row',
-  },
-  bottomMenu: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: HEIGHT(5),
-    paddingBottom: HEIGHT(2),
+    padding: HEIGHT(3),
+    marginTop: HEIGHT(5),
   },
   buttonContainer: {
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '40%',
+    justifyContent: 'space-between',
+    marginBottom: HEIGHT(2),
+    paddingLeft: HEIGHT(10),
+    
   },
   bookmarkButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginLeft: HEIGHT(1)
   },
   editButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  saveButton: {
-    paddingBottom: HEIGHT(3),
-  },
-  deleteButton: {
-    position: 'absolute',
-    bottom: HEIGHT(4),
-    right: HEIGHT(3),
-  },
-  deleteButtonContainer: {
-    padding: 10,
-    backgroundColor: COLOR.primaryRedHex,
-    borderRadius: 5,
-  },
-  modalBackground: {
-    backgroundColor: COLOR.primaryRedHex,
-  },
-  modalContentContainer: {
-    flex: 1,
-    padding: HEIGHT(2),
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: HEIGHT(2),
-    color: COLOR.primaryWhiteHex,
-  },
-  colorPalette: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginBottom: HEIGHT(2),
-  },
-  colorOption: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    margin: 5,
+    marginRight: HEIGHT(9)
   },
   labelContainer: {
-    padding: HEIGHT(2),
+    marginBottom: 20,
   },
   labelTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: HEIGHT(1),
-    color: COLOR.primaryWhiteHex,
+    marginBottom: 5,
   },
   labels: {
     flexDirection: 'row',
@@ -251,21 +190,123 @@ const styles = StyleSheet.create({
   },
   label: {
     borderRadius: 5,
-    padding: 5,
-    margin: 2,
+    paddingVertical: 3,
+    paddingHorizontal: 8,
+    marginRight: 5,
+    marginBottom: 5,
+    backgroundColor: 'gray',
   },
   labelText: {
-    color: COLOR.primaryWhiteHex,
+    color: 'white',
   },
-  labelsContainer: {
+  button: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    paddingBottom: HEIGHT(2),
   },
-  labelOption: {
-    padding: 10,
-    borderRadius: 5,
-    margin: 5,
+  titleStyle: {
+    textAlign: 'center',
+    fontSize: 20,
   },
+  background: {
+    backgroundColor: COLOR.primaryGreyHex,
+    height: HEIGHT(5),
+    borderRadius: HEIGHT(1),
+    marginHorizontal: HEIGHT(0.7),
+    marginBottom: HEIGHT(3),
+    borderColor: COLOR.primaryBlackHex,
+    borderWidth: HEIGHT(0.1),
+    marginTop: HEIGHT(2),
+    flexDirection: 'row',
+  },
+  iconStyle: {
+    fontSize: HEIGHT(4),
+    alignItems: 'center',
+    marginHorizontal: HEIGHT(1.5),
+    marginTop: 3,
+  },
+  inputStyle: {
+    borderColor: COLOR.primaryBlackHex,
+    fontSize: HEIGHT(2),
+    flex: 1,
+  },
+  bottomMenu: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: HEIGHT(10),
+    backgroundColor: COLOR.primaryBlue,
+  },
+  checkButton: {
+    position: 'absolute',
+    paddingTop: HEIGHT(13),
+    right: 20,
+  },
+  BottomSheetStyle: {
+    backgroundColor: COLOR.secondaryGreyHex,
+  },
+  imageStyle: {
+    height: HEIGHT(30),
+    width: HEIGHT(30),
+    justifyContent: 'center',
+    marginTop: HEIGHT(6),
+    marginLeft: HEIGHT(6)
+  },
+  bottomSheetContent: {
+    padding: 20,
+  },
+  bottomSheetTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  bottomSheetSubtitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 5,
+  },
+  colorSelector: {
+    marginBottom: 20,
+  },
+  colorSelectorHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  colorOptions: {
+    marginTop: 10,
+  },
+  colorCircle: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    marginRight: 10,
+  },
+  manageLabelsButton: {
+    marginBottom: 20,
+  },
+  manageLabelsContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  manageLabelsText: {
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  deleteButton: {},
+  deleteButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  deleteButtonText: {
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  backButton: {
+    marginRight: HEIGHT(9)
+  }
 });
 
 export default EditNote;
