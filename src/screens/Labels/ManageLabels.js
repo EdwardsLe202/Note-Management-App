@@ -1,6 +1,9 @@
+//ManageLabels.js
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { LABELS } from '../../../data/dummy-data';
+import { COlORPICKER, HEIGHT, COLOR } from '../../theme/theme';
+import { AntDesign } from '@expo/vector-icons';
 
 const ManageLabels = ({ route, navigation }) => {
   const { labels, updateLabels } = route.params;
@@ -23,7 +26,7 @@ const ManageLabels = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Manage Labels</Text>
+      <Text style={styles.title}>Select Labels</Text>
       <FlatList
         data={LABELS}
         keyExtractor={(item) => item.id}
@@ -35,13 +38,24 @@ const ManageLabels = ({ route, navigation }) => {
             ]}
             onPress={() => toggleLabel(item.id)}
           >
-            <Text style={styles.labelText}>{item.label}</Text>
+            {/* <Text style={styles.labelText}>{item.label}</Text> */}
+            <Text style={[
+              styles.labelText,
+              selectedLabels.includes(item.id) && styles.selectedLabelText
+            ]}>{item.label}</Text>
           </TouchableOpacity>
         )}
       />
-      <TouchableOpacity style={styles.saveButton} onPress={saveLabels}>
+      {/* <TouchableOpacity style={styles.saveButton} onPress={saveLabels}>
         <Text style={styles.saveButtonText}>Save</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+
+      <TouchableOpacity
+          style={styles.saveButton}
+          onPress={saveLabels}
+        >
+          <AntDesign name="checkcircle" size={50} color={COLOR.secondaryYellowHex} />
+        </TouchableOpacity>
     </View>
   );
 };
@@ -52,27 +66,41 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
+    marginTop: HEIGHT(5),
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    alignSelf: 'center'
   },
   labelItem: {
     padding: 10,
-    borderRadius: 5,
+    borderRadius: HEIGHT(10),
     marginBottom: 10,
-    backgroundColor: 'gray',
+    backgroundColor: COLOR.primaryGreyHex,
+    borderWidth: 1
   },
   selectedLabel: {
-    backgroundColor: 'blue',
+    backgroundColor: COLOR.primaryBlue,
   },
   labelText: {
-    color: 'white',
+    color: COLOR.primaryBlackHex,
+    alignSelf: 'center'
+  },
+  selectedLabelText: {
+    color: COLOR.primaryWhiteHex, 
   },
   saveButton: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: 'green',
-    borderRadius: 5,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 999,
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    margin: HEIGHT(5.5),
+    marginLeft: HEIGHT(34.4)
+  
+
   },
   saveButtonText: {
     color: 'white',

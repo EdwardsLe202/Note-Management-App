@@ -1,3 +1,4 @@
+//NewNote.js
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
 import { NOTES, LABELS } from '../../../data/dummy-data';
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginVertical: HEIGHT(2),
-    paddingLeft: HEIGHT(2.3)
+    paddingLeft: HEIGHT(2.3),
     
   },
   label: {
@@ -168,6 +169,7 @@ const styles = StyleSheet.create({
     padding: 5,
     margin: 5,
     backgroundColor: COLOR.primaryGreyHex,
+    borderWidth: 1
   },
   selectedLabel: {
     backgroundColor: COLOR.primaryBlue,
