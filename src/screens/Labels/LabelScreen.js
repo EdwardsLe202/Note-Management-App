@@ -1,36 +1,42 @@
-//LabelScreen.js
-import React, { useState } from 'react';
+// LabelScreen.js
+import React, { useContext, useState, useEffect } from 'react';
 import { View, FlatList, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
-import { LABELS } from '../../../data/dummy-data';
+import { LabelsContext } from '../../components/LabelsContext';
 import LabelModal from './LabelModal';
 import SearchBar from '../../components/SearchBar';
 
-const LabelScreen = ({ navigation }) => {
+const LabelScreen = ({ navigation, route }) => {
+  const { labels, addLabel, updateLabel, deleteLabel } = useContext(LabelsContext);
   const [search, setSearch] = useState('');
-  const [filteredLabels, setFilteredLabels] = useState(LABELS);
-  const [labels, setLabels] = useState(LABELS);
+  const [filteredLabels, setFilteredLabels] = useState(labels);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState(null);
 
-  const searchLabels = text => {
-    setSearch(text);
-    if (text) {
-      setFilteredLabels(labels.filter(label => label.label.includes(text)));
-    } else {
+  useEffect(() => {
+    setFilteredLabels(labels);
+  }, [labels]);
+
+  useEffect(() => {
+    if (route.params?.updated) {
       setFilteredLabels(labels);
     }
+  }, [route.params]);
+
+  const searchLabels = text => {
+    setSearch(text);
+    setFilteredLabels(labels.filter(label => label.label.includes(text)));
   };
 
   const saveLabelHandler = (id, text) => {
     if (id) {
       if (text) {
-        setLabels(currentLabels => currentLabels.map(label => label.id === id ? { ...label, label: text } : label));
+        updateLabel(id, text);
       } else {
-        setLabels(currentLabels => currentLabels.filter(label => label.id !== id));
+        deleteLabel(id);
       }
     } else {
       const newLabel = { id: `l${labels.length + 1}`, label: text };
-      setLabels(currentLabels => [...currentLabels, newLabel]);
+      addLabel(newLabel);
     }
     setFilteredLabels(labels);
   };

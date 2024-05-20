@@ -1,14 +1,16 @@
-//EditNote.js
-import React, { useState, useRef } from 'react';
+// EditNote.js
+import React, { useState, useRef, useContext } from 'react';
 import { View, TextInput, Button, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import { NOTES, LABELS, COLORS } from '../../../data/dummy-data';
 import { Entypo, FontAwesome, Ionicons, MaterialCommunityIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { COLOR, HEIGHT } from '../../theme/theme';
 import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { StatusBar } from 'expo-status-bar';
+import { LabelsContext } from '../../components/LabelsContext';
 
 const EditNote = ({ route, navigation }) => {
   const { noteId, updateNotes } = route.params || {}; 
+  const { labels: availableLabels } = useContext(LabelsContext);
   const note = NOTES.find(n => n.id === noteId);
 
   if (!note) {
@@ -83,7 +85,7 @@ const EditNote = ({ route, navigation }) => {
           <Text style={styles.labelTitle}>Labels:</Text>
           <View style={styles.labels}>
             {labels.map(labelId => {
-              const label = LABELS.find(label => label.id === labelId);
+              const label = availableLabels.find(label => label.id === labelId);
               return (
                 <View key={label.id} style={[styles.label, { backgroundColor: 'gray' }]}>
                   <Text style={styles.labelText}>{label.label}</Text>
@@ -261,57 +263,50 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
+  bottomSheetSubtitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 5,
+  },
   colorSelector: {
     marginBottom: 20,
   },
   colorSelectorHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
-  },
-  bottomSheetSubtitle: {
-    fontSize: HEIGHT(2),
-    marginLeft: 10,
-    marginVertical: 20
   },
   colorOptions: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    marginTop: 10,
   },
   colorCircle: {
     width: 30,
     height: 30,
     borderRadius: 15,
-    margin: 5,
+    marginRight: 10,
   },
   manageLabelsButton: {
     marginBottom: 20,
-    marginVertical: 20
   },
   manageLabelsContent: {
     flexDirection: 'row',
     alignItems: 'center',
-   
   },
   manageLabelsText: {
-    color: COLOR.primaryBlackHex,
-    fontSize: HEIGHT(2),
+    fontSize: 16,
     marginLeft: 10,
-    
   },
-  deleteButton: {
-    marginBottom: 20,
-    marginVertical: 20
-  },
+  deleteButton: {},
   deleteButtonContent: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   deleteButtonText: {
-    color: COLOR.primaryBlackHex,
-    fontSize: HEIGHT(2),
+    fontSize: 16,
     marginLeft: 10,
   },
+  backButton: {
+    marginRight: HEIGHT(9)
+  }
 });
 
 export default EditNote;

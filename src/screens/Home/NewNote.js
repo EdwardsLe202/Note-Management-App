@@ -1,14 +1,15 @@
-//NewNote.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, TextInput, Button, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
-import { NOTES, LABELS } from '../../../data/dummy-data';
+import { NOTES } from '../../../data/dummy-data';
 import Note from '../../../models/Note';
 import { COLOR, HEIGHT } from '../../theme/theme';
 import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import AlertModal from '../../components/AlertModal';
+import { LabelsContext } from '../../components/LabelsContext'; // Import LabelsContext
 
 const NewNote = ({ navigation, route }) => {
   const { updateNotes } = route.params;
+  const { labels: availableLabels } = useContext(LabelsContext); // Use LabelsContext
   const [content, setContent] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [selectedLabels, setSelectedLabels] = useState([]);
@@ -50,7 +51,7 @@ const NewNote = ({ navigation, route }) => {
       </View>
       <Text style={styles.title}>Labels</Text>
       <View style={styles.labelContainer}>
-        {LABELS.map(label => (
+        {availableLabels.map(label => (
           <TouchableOpacity
             key={label.id}
             style={[
@@ -108,19 +109,15 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     paddingBottom: HEIGHT(5),
- 
   },
   titleStyle: {
     alignItems: 'center',
-    
   },
   backButton: {
     position: 'absolute',
     top: 40,
     left: 20,
     zIndex: 1,
-    
-    
   },
   background: {
     backgroundColor: COLOR.primaryGreyHex,
@@ -148,7 +145,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     paddingTop: HEIGHT(13),
     right: 20,
-
   },
   imageStyle: {
     height: 200,
@@ -162,7 +158,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     marginVertical: HEIGHT(2),
     paddingLeft: HEIGHT(2.3),
-    
   },
   label: {
     borderRadius: 5,
