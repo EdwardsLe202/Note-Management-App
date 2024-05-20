@@ -1,16 +1,16 @@
 import React from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
-import LabelScreen from '../screens/Labels/LabelScreen';
+import TrashScreen from '../screens/Trash/TrashScreen';
 
 
 const Stack = createStackNavigator();
 
-const LabelsNavigator = () => {
+const TrashNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="LabelScreen" component={LabelScreen} />
+      <Stack.Screen name="TrashScreen" component={TrashScreen} />
     </Stack.Navigator>
   );
 }
 
-export default LabelsNavigator;
+export default TrashNavigator;

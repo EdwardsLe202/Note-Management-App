@@ -1,4 +1,3 @@
-// dummy-data.js
 import Note from "../models/Note";
 import Label from "../models/Label";
 

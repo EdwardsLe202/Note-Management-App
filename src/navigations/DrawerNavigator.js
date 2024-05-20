@@ -1,15 +1,14 @@
 import React from 'react';
 import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
-import HomeScreen from '../screens/Home/HomeScreen';
 import FolderScreen from '../screens/Folders/FolderScreen';
-import LabelScreen from '../screens/Labels/LabelScreen';
 import TrashScreen from '../screens/Trash/TrashScreen';
 import { COlORPICKER, COLOR } from '../theme/theme';
 import { Fontisto, Feather, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, View, Image, Text } from 'react-native';
 import HomeNavigator from './HomeNavigator';
-import EditNoteNavigator from './EditNoteNavigator';
+import LabelsNavigator from './LabelsNavigator';
+import TrashNavigator from './TrashNavigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -100,7 +99,7 @@ const DrawerNavigator = () => {
             <MaterialCommunityIcons name="label-multiple-outline" size={20} color={COLOR.primaryBlue} />
           ),
         }}
-        component={LabelScreen}
+        component={LabelsNavigator}
       />
       <Drawer.Screen
         name="Trash"
@@ -111,7 +110,7 @@ const DrawerNavigator = () => {
             <Feather name="trash-2" size={20} color={COLOR.primaryBlue} />
           ),
         }}
-        component={TrashScreen}
+        component={TrashNavigator}
       />
     </Drawer.Navigator>
   );

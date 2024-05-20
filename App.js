@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import MainNavigator from './src/navigations/MainNavigator';
 
 
-// LogBox.ignoreAllLogs();
+LogBox.ignoreAllLogs();
 
 export default function App() {
   return (
