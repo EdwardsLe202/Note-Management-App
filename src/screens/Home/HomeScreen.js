@@ -1,15 +1,14 @@
-// HomeScreen.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import { NOTES, LABELS, COLORS } from '../../../data/dummy-data.js';
+import { NOTES, COLORS } from '../../../data/dummy-data.js';
 import SearchBar from '../../components/SearchBar.js';
 import { FontAwesome } from '@expo/vector-icons';
 import { COLOR, HEIGHT } from '../../theme/theme.js';
 import { AntDesign } from '@expo/vector-icons';
-
-
+import { LabelsContext } from '../../components/LabelsContext.js';
 
 const HomeScreen = ({ navigation }) => {
+  const { labels } = useContext(LabelsContext);
   const [search, setSearch] = useState('');
   const [filteredNotes, setFilteredNotes] = useState(NOTES);
   const [searchResult, setSearchResult] = useState(true);
@@ -46,7 +45,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
           <View style={styles.labelContainer}>
             {item.labelIds.map(labelId => {
-              const label = LABELS.find(label => label.id === labelId);
+              const label = labels.find(label => label.id === labelId);
               if (label) {
                 return (
                   <View key={label.id} style={[styles.label, { backgroundColor: 'gray' }]}>
@@ -65,7 +64,6 @@ const HomeScreen = ({ navigation }) => {
       </View>
     </TouchableOpacity>
   );
-  
 
   return (
     <View style={styles.container}>
@@ -104,7 +102,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.primaryBlue,
     padding: HEIGHT(2.5),
     borderRadius: HEIGHT(2),
-
   },
   noteContent: {
     fontSize: 18,
@@ -120,7 +117,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 3,
     marginRight: 5,
-    
   },
   labelText: {
     color: COLOR.primaryWhiteHex,

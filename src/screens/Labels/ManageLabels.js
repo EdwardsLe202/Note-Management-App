@@ -1,16 +1,16 @@
-//ManageLabels.js
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
-import { LABELS } from '../../../data/dummy-data';
+import { LabelsContext } from '../../components/LabelsContext';
 import { COlORPICKER, HEIGHT, COLOR } from '../../theme/theme';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 const ManageLabels = ({ route, navigation }) => {
-  const { labels, updateLabels } = route.params;
-  const [selectedLabels, setSelectedLabels] = useState(labels);
+  const { labels } = useContext(LabelsContext);
+  const { selectedLabels, updateLabels } = route.params;
+  const [localSelectedLabels, setLocalSelectedLabels] = useState(selectedLabels);
 
   const toggleLabel = (labelId) => {
-    setSelectedLabels((prevSelected) => {
+    setLocalSelectedLabels((prevSelected) => {
       if (prevSelected.includes(labelId)) {
         return prevSelected.filter((id) => id !== labelId);
       } else {
@@ -20,7 +20,7 @@ const ManageLabels = ({ route, navigation }) => {
   };
 
   const saveLabels = () => {
-    updateLabels(selectedLabels);
+    updateLabels(localSelectedLabels);
     navigation.goBack();
   };
 
@@ -33,29 +33,30 @@ const ManageLabels = ({ route, navigation }) => {
         <Text style={styles.title}>Select Labels</Text>
       </View>
       <FlatList
-        data={LABELS}
+        data={labels}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={[
               styles.labelItem,
-              selectedLabels.includes(item.id) && styles.selectedLabel,
+              localSelectedLabels.includes(item.id) && styles.selectedLabel,
             ]}
             onPress={() => toggleLabel(item.id)}
           >
-            <Text style={[
-              styles.labelText,
-              selectedLabels.includes(item.id) && styles.selectedLabelText
-            ]}>{item.label}</Text>
+            <Text
+              style={[
+                styles.labelText,
+                localSelectedLabels.includes(item.id) && styles.selectedLabelText,
+              ]}
+            >
+              {item.label}
+            </Text>
           </TouchableOpacity>
         )}
       />
-      <TouchableOpacity
-          style={styles.saveButton}
-          onPress={saveLabels}
-        >
-          <AntDesign name="checkcircle" size={50} color={COLOR.secondaryYellowHex} />
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.saveButton} onPress={saveLabels}>
+        <AntDesign name="checkcircle" size={50} color={COLOR.secondaryYellowHex} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -68,24 +69,24 @@ const styles = StyleSheet.create({
   title: {
     alignSelf: 'center',
     fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 20,
   },
   labelItem: {
     padding: 10,
     borderRadius: HEIGHT(10),
     marginBottom: 10,
     backgroundColor: COLOR.primaryGreyHex,
-    borderWidth: 1
+    borderWidth: 1,
   },
   selectedLabel: {
     backgroundColor: COLOR.primaryBlue,
   },
   labelText: {
     color: COLOR.primaryBlackHex,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   selectedLabelText: {
-    color: COLOR.primaryWhiteHex, 
+    color: COLOR.primaryWhiteHex,
   },
   saveButton: {
     position: 'absolute',
@@ -96,9 +97,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-end',
     margin: HEIGHT(5.5),
-    marginLeft: HEIGHT(34.4)
-  
-
+    marginLeft: HEIGHT(34.4),
   },
   saveButtonText: {
     color: 'white',
@@ -108,9 +107,8 @@ const styles = StyleSheet.create({
   button: {
     fontSize: 24,
     fontWeight: 'bold',
-    flexDirection:'column',
-    paddingVertical: HEIGHT(5)
-    
+    flexDirection: 'column',
+    paddingVertical: HEIGHT(5),
   },
   backButton: {
     position: 'absolute',
@@ -118,8 +116,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 999,
-    
-    
   },
 });
 
