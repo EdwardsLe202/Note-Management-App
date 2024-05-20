@@ -1,3 +1,4 @@
+//EditNote.js
 import React, { useState, useRef } from 'react';
 import { View, TextInput, Button, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import { NOTES, LABELS, COLORS } from '../../../data/dummy-data';

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { LABELS } from '../../../data/dummy-data';
 import { COlORPICKER, HEIGHT, COLOR } from '../../theme/theme';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 const ManageLabels = ({ route, navigation }) => {
   const { labels, updateLabels } = route.params;
@@ -26,7 +26,12 @@ const ManageLabels = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Select Labels</Text>
+      <View style={styles.button}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.title}>Select Labels</Text>
+      </View>
       <FlatList
         data={LABELS}
         keyExtractor={(item) => item.id}
@@ -38,7 +43,6 @@ const ManageLabels = ({ route, navigation }) => {
             ]}
             onPress={() => toggleLabel(item.id)}
           >
-            {/* <Text style={styles.labelText}>{item.label}</Text> */}
             <Text style={[
               styles.labelText,
               selectedLabels.includes(item.id) && styles.selectedLabelText
@@ -46,10 +50,6 @@ const ManageLabels = ({ route, navigation }) => {
           </TouchableOpacity>
         )}
       />
-      {/* <TouchableOpacity style={styles.saveButton} onPress={saveLabels}>
-        <Text style={styles.saveButtonText}>Save</Text>
-      </TouchableOpacity> */}
-
       <TouchableOpacity
           style={styles.saveButton}
           onPress={saveLabels}
@@ -66,11 +66,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    marginTop: HEIGHT(5),
-    fontSize: 24,
+    alignSelf: 'center',
     fontWeight: 'bold',
-    marginBottom: 20,
-    alignSelf: 'center'
+    fontSize: 20
   },
   labelItem: {
     padding: 10,
@@ -106,6 +104,22 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontSize: 16,
+  },
+  button: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    flexDirection:'column',
+    paddingVertical: HEIGHT(5)
+    
+  },
+  backButton: {
+    position: 'absolute',
+    bottom: HEIGHT(5),
+    left: 0,
+    right: 0,
+    zIndex: 999,
+    
+    
   },
 });
 
