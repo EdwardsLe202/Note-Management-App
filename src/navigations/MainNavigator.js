@@ -6,6 +6,8 @@ import EditNoteNavigator from './EditNoteNavigator';
 import NewNoteNavigator from './NewNoteNavigator';
 import ManageLabels from '../screens/Labels/ManageLabels';
 
+
+
 const Stack = createStackNavigator();
 
 const MainNavigator = () => {
@@ -15,6 +17,8 @@ const MainNavigator = () => {
       <Stack.Screen name="EditNoteNavigator" component={EditNoteNavigator} />
       <Stack.Screen name="NewNoteNavigator" component={NewNoteNavigator} />
       <Stack.Screen name="ManageLabels" component={ManageLabels}/>
+ 
+
     </Stack.Navigator>
   );
 }

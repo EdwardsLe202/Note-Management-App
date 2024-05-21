@@ -35,3 +35,4 @@ export const TRASH = [
     new Note('n6', null, ['l4', 'l2', 'l1'], 'A simple note', new Date('2024-5-10T14:35:00'), false),
     new Note('n7', COLORS[6], ['l1', 'l2', 'l3', 'l4'], 'One more note', new Date('2024-4-20T15:30:00'), false),
 ];
+

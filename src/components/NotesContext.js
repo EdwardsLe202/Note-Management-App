@@ -33,8 +33,12 @@ export const NotesProvider = ({ children }) => {
     setTrashNotes([]);
   };
 
+  const addNote = (newNote) => {
+    setNotes((prevNotes) => [...prevNotes, newNote]);
+  };
+
   return (
-    <NotesContext.Provider value={{ notes, trashNotes, restoreNote, deleteNote, restoreAllNotes, emptyTrash }}>
+    <NotesContext.Provider value={{ notes, trashNotes, restoreNote, deleteNote, restoreAllNotes, emptyTrash, addNote }}>
       {children}
     </NotesContext.Provider>
   );

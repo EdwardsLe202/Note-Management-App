@@ -1,42 +1,49 @@
 // HomeScreen.js
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import { NOTES, COLORS } from '../../../data/dummy-data.js';
 import SearchBar from '../../components/SearchBar.js';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { COLOR, HEIGHT } from '../../theme/theme.js';
 import { LabelsContext } from '../../components/LabelsContext.js';
+import { NotesContext } from '../../components/NotesContext.js';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, route }) => {
+  const { notes } = useContext(NotesContext);
   const { labels } = useContext(LabelsContext);
   const [search, setSearch] = useState('');
-  const [filteredNotes, setFilteredNotes] = useState(NOTES);
+  const [filteredNotes, setFilteredNotes] = useState(notes);
   const [searchResult, setSearchResult] = useState(true);
 
+  useEffect(() => {
+    if (route.params?.updatedNotes) {
+      setFilteredNotes(route.params.updatedNotes);
+    }
+  }, [route.params?.updatedNotes]);
+
+  useEffect(() => {
+    setFilteredNotes(notes);
+  }, [notes]);
+
   const searchNotes = text => {
-    const lowercaseText = text.toLowerCase(); 
+    const lowercaseText = text.toLowerCase();
     setSearch(text);
     if (text) {
-      const filtered = NOTES.filter(note => note.content.toLowerCase().includes(lowercaseText)); 
+      const filtered = notes.filter(note => note.content.toLowerCase().includes(lowercaseText));
       setFilteredNotes(filtered);
       setSearchResult(filtered.length > 0);
     } else {
-      setFilteredNotes(NOTES);
+      setFilteredNotes(notes);
       setSearchResult(true);
     }
   };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleString(); 
+    return date.toLocaleString();
   };
 
-  const updateNotes = () => {
-    setFilteredNotes([...NOTES]);
-  };
-  
   const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('EditNoteNavigator', { screen: 'EditNote', params: { noteId: item.id, updateNotes } })}>
+    <TouchableOpacity onPress={() => navigation.navigate('EditNoteNavigator', { screen: 'EditNote', params: { noteId: item.id, updateNotes: setFilteredNotes } })}>
       <View style={styles.noteContainer}>
         <View>
           <View style={styles.timeContainer}>
@@ -68,7 +75,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <SearchBar onSearch={searchNotes} />
-      {searchResult ? ( 
+      {searchResult ? (
         <FlatList
           showsVerticalScrollIndicator={false}
           data={filteredNotes}
@@ -81,7 +88,7 @@ const HomeScreen = ({ navigation }) => {
       )}
       <TouchableOpacity
         style={styles.addButton}
-        onPress={() => navigation.navigate('NewNoteNavigator', { screen: 'NewNote', params: { updateNotes } })}
+        onPress={() => navigation.navigate('NewNoteNavigator', { screen: 'NewNote', params: { updateNotes: setFilteredNotes } })}
       >
         <AntDesign name="pluscircle" size={50} color={COLOR.secondaryYellowHex} />
       </TouchableOpacity>

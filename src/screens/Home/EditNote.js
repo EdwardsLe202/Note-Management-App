@@ -7,11 +7,13 @@ import { COLOR, HEIGHT } from '../../theme/theme';
 import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { StatusBar } from 'expo-status-bar';
 import { LabelsContext } from '../../components/LabelsContext';
+import { NotesContext } from '../../components/NotesContext';
 
 const EditNote = ({ route, navigation }) => {
-  const { noteId, updateNotes } = route.params || {}; 
+  const { noteId, updateNotes } = route.params || {};
+  const { notes, deleteNote } = useContext(NotesContext);
+  const note = notes.find(n => n.id === noteId);
   const { labels: availableLabels } = useContext(LabelsContext);
-  const note = NOTES.find(n => n.id === noteId);
 
   if (!note) {
     return (
@@ -38,13 +40,20 @@ const EditNote = ({ route, navigation }) => {
     setLabels(newLabels);
   };
 
-  const deleteNote = () => {
-    const noteIndex = NOTES.findIndex(n => n.id === noteId);
-    if (noteIndex !== -1) {
-      NOTES.splice(noteIndex, 1);
-      updateNotes(); 
-      navigation.goBack();
-    }
+  // const deleteNote = () => {
+  //   const noteIndex = NOTES.findIndex(n => n.id === noteId);
+  //   if (noteIndex !== -1) {
+  //     NOTES.splice(noteIndex, 1);
+  //     updateNotes(); 
+  //     navigation.goBack();
+  //   }
+  // };
+
+  const handleDeleteNote = () => {
+    deleteNote(noteId);
+    const updatedNotes = notes.filter(n => n.id !== noteId);
+    updateNotes(updatedNotes);
+    navigation.goBack();
   };
 
   const saveNote = () => {
@@ -52,8 +61,8 @@ const EditNote = ({ route, navigation }) => {
     note.isBookmarked = isBookmarked;
     note.color = color;
     note.labelIds = labels;
-    note.updateAt = new Date();
-    updateNotes(); 
+    note.updatedAt = new Date();
+    updateNotes([...notes]);
     navigation.goBack();
   };
 
@@ -143,7 +152,7 @@ const EditNote = ({ route, navigation }) => {
                 <Text style={styles.manageLabelsText}>Manage Labels</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={deleteNote} style={styles.deleteButton}>
+            <TouchableOpacity onPress={handleDeleteNote} style={styles.deleteButton}>
               <View style={styles.deleteButtonContent}>
                 <Feather name="trash-2" size={25} color={COLOR.primaryBlackHex} />
                 <Text style={styles.deleteButtonText}>Delete Note</Text>

@@ -25,7 +25,6 @@ const LabelModal = ({ visible, onClose, onSave, initialLabel }) => {
   return (
     <Modal
       visible={visible}
-      animationType="slide"
       transparent={true}
       onRequestClose={onClose}
     >

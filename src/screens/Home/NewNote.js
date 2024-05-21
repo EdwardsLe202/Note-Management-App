@@ -1,3 +1,4 @@
+//NewNote.js
 import React, { useState, useContext } from 'react';
 import { View, TextInput, Button, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
 import { NOTES } from '../../../data/dummy-data';
@@ -5,29 +6,32 @@ import Note from '../../../models/Note';
 import { COLOR, HEIGHT } from '../../theme/theme';
 import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import AlertModal from '../../components/AlertModal';
-import { LabelsContext } from '../../components/LabelsContext'; // Import LabelsContext
+import { LabelsContext } from '../../components/LabelsContext'; 
+import { NotesContext } from '../../components/NotesContext';
+
 
 const NewNote = ({ navigation, route }) => {
   const { updateNotes } = route.params;
+  const { addNote } = useContext(NotesContext);
   const { labels: availableLabels } = useContext(LabelsContext); // Use LabelsContext
   const [content, setContent] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [selectedLabels, setSelectedLabels] = useState([]);
 
-  const addNote = () => {
+  const onSaveNote  = () => {
     if (content.trim() === '') {
       setShowModal(true);
       return;
     }
     const newNote = new Note(
-      `n${NOTES.length + 1}`,
+      `n${Date.now()}`,
       null,
       selectedLabels,
       content,
       new Date(),
       false
     );
-    NOTES.push(newNote);
+    addNote(newNote);
     updateNotes();
     navigation.goBack();
   };
@@ -79,7 +83,7 @@ const NewNote = ({ navigation, route }) => {
       <View>
         <TouchableOpacity
           style={styles.checkButton}
-          onPress={addNote}
+          onPress={onSaveNote }
         >
           <AntDesign name="checkcircle" size={50} color={COLOR.secondaryYellowHex} />
         </TouchableOpacity>
