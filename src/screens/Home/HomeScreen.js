@@ -1,3 +1,4 @@
+// HomeScreen.js
 import React, { useState, useContext } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { NOTES, COLORS } from '../../../data/dummy-data.js';
