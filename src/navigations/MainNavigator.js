@@ -5,6 +5,7 @@ import DrawerNavigator from './DrawerNavigator';
 import EditNoteNavigator from './EditNoteNavigator';
 import NewNoteNavigator from './NewNoteNavigator';
 import ManageLabels from '../screens/Labels/ManageLabels';
+import ManageFolderScreen from '../screens/Folders/ManageFolderScreen';
 
 
 
@@ -17,7 +18,7 @@ const MainNavigator = () => {
       <Stack.Screen name="EditNoteNavigator" component={EditNoteNavigator} />
       <Stack.Screen name="NewNoteNavigator" component={NewNoteNavigator} />
       <Stack.Screen name="ManageLabels" component={ManageLabels}/>
- 
+      <Stack.Screen name="ManageFolder" component={ManageFolderScreen}/>
 
     </Stack.Navigator>
   );
