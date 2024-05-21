@@ -2,9 +2,8 @@ import React, { useState, useContext } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { NOTES, COLORS } from '../../../data/dummy-data.js';
 import SearchBar from '../../components/SearchBar.js';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { COLOR, HEIGHT } from '../../theme/theme.js';
-import { AntDesign } from '@expo/vector-icons';
 import { LabelsContext } from '../../components/LabelsContext.js';
 
 const HomeScreen = ({ navigation }) => {

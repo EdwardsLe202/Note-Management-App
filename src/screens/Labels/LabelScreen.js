@@ -4,6 +4,8 @@ import { View, FlatList, Text, Button, TouchableOpacity, StyleSheet } from 'reac
 import { LabelsContext } from '../../components/LabelsContext';
 import LabelModal from './LabelModal';
 import SearchBar from '../../components/SearchBar';
+import { COlORPICKER, HEIGHT, COLOR } from '../../theme/theme';
+import { AntDesign } from '@expo/vector-icons';
 
 const LabelScreen = ({ navigation, route }) => {
   const { labels, addLabel, updateLabel, deleteLabel } = useContext(LabelsContext);
@@ -53,7 +55,7 @@ const LabelScreen = ({ navigation, route }) => {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.labelContainer} onPress={() => openModalHandler(item)}>
-      <Text>{item.label}</Text>
+      <Text style = {styles.labelText}>{item.label}</Text>
     </TouchableOpacity>
   );
 
@@ -66,8 +68,15 @@ const LabelScreen = ({ navigation, route }) => {
         renderItem={renderItem}
         ListEmptyComponent={<Text>No labels found</Text>}
       />
-      <Button title="New Label" onPress={() => openModalHandler(null)} />
-      <Button title="Go Back" onPress={() => navigation.goBack()} />
+      {/* <Button title="New Label" onPress={() => openModalHandler(null)} /> */}
+
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => openModalHandler(null)}
+      >
+        <AntDesign name="pluscircle" size={50} color={COLOR.secondaryYellowHex} />
+      </TouchableOpacity>
+
       <LabelModal
         visible={modalVisible}
         onClose={closeModalHandler}
@@ -85,10 +94,21 @@ const styles = StyleSheet.create({
   },
   labelContainer: {
     padding: 10,
-    marginVertical: 5,
-    backgroundColor: '#f9f9f9',
-    borderRadius: 5,
+    borderRadius: HEIGHT(10),
+    marginBottom: 10,
+    backgroundColor: COLOR.primaryBlue,
+    borderWidth: 1,
   },
+  labelText : {
+    color: COLOR.primaryWhiteHex,
+    alignSelf: 'center',
+  },
+  addButton: {
+    position: 'absolute',
+    bottom: HEIGHT(7),
+    right: 20,
+    padding: 10,
+  }
 });
 
 export default LabelScreen;
