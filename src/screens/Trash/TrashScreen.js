@@ -98,7 +98,6 @@ const TrashScreen = ({ navigation, route }) => {
           </View>
           <Text style={styles.noteContent}>{item.content}</Text>
         </View>
-        <Ionicons name="refresh" size={24} color={COLOR.primaryRedHex} />
       </View>
     </TouchableOpacity>
   );
