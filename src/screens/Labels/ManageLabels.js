@@ -121,13 +121,3 @@ const styles = StyleSheet.create({
 });
 
 export default ManageLabels;
-
-
-//Combine between Stack Navigator and Drawer Navigator --> Main Navigator (Draw Navigator, Stack Screen)
-// no update on homepage when edit note/ new note --> Route.params --> Update immediately on screen
-// Labels Context and Notes Context ( LabelsProvider and NotesProvider) --> Update data between screen
-// Không đồng bộ màu sắc app giữa các thành viên --> Design App 
-
-
-// Create own modal: AlerModal, SearchbarModal, InputBarModal
-// Create environment: COLOR ( app) , Size (text, ..), 
