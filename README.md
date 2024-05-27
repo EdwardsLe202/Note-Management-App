@@ -8,7 +8,7 @@ This app helps users to create and manage simple notes with the user's smartphon
 
 <img src="https://github.com/EdwardsLe202/Note-Management-App/assets/118035047/6183b3b3-f092-4a56-9042-58b35d63436f" min-width="200px" max-width="200px" width="200px" >
 <img src="https://github.com/EdwardsLe202/Note-Management-App/assets/118035047/cec5da57-3203-4272-bf3e-38daff896570" min-width="200px" max-width="200px" width="200px" >
-<img src="https://github.com/EdwardsLe202/Note-Management-App/assets/118035047/5cf79842-31e7-4f11-b685-33ae79ea3456" min-width="200px" max-width="200px" width="200px" >
+<img src="https://github.com/EdwardsLe202/Note-Management-App/assets/118035047/1ad2e7a7-ce54-4228-8dd8-d07719bad630" min-width="200px" max-width="200px" width="200px" >
 
 `New Note Screen`
 
